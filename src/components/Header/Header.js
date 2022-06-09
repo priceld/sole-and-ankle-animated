@@ -114,16 +114,57 @@ const Filler = styled.div`
   }
 `;
 
-const NavLink = styled.a`
-  font-size: 1.125rem;
-  text-transform: uppercase;
-  text-decoration: none;
+const NavLinkWrapper = styled.div`
+  position: relative;
+  overflow: hidden;
   color: var(--color-gray-900);
-  font-weight: ${WEIGHTS.medium};
-
+  
   &:first-of-type {
     color: var(--color-secondary);
   }
 `;
+
+const Link = styled.a`
+  font-size: 1.125rem;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-weight: ${WEIGHTS.medium};
+`;
+
+const HoveredLink = styled(Link)`
+  position: absolute;
+  top: 100%;
+  left: 0;
+  font-weight: ${WEIGHTS.bold};
+`;
+
+const LinkWindow = styled.div`
+  position: relative;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transition: transform 250ms;
+
+  &:hover {
+    transform: translateY(-100%);
+  }
+`;
+
+const NavLink = (props) => {
+  const {
+    href,
+    children
+  } = props;
+
+  return (
+    <NavLinkWrapper href={href} >
+      <LinkWindow>
+        <Link>{children}</Link>
+        <HoveredLink>{children}</HoveredLink>
+      </LinkWindow>
+    </NavLinkWrapper>
+  )
+}
 
 export default Header;
