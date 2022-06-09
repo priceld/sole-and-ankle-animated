@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
-import styled from 'styled-components/macro';
+import styled, { keyframes } from 'styled-components/macro';
 import { DialogOverlay, DialogContent } from '@reach/dialog';
 
 import { QUERIES, WEIGHTS } from '../../constants';
@@ -13,28 +13,48 @@ const MobileMenu = ({ isOpen, onDismiss }) => {
   return (
     <Overlay isOpen={isOpen} onDismiss={onDismiss}>
       <Content aria-label="Menu">
-        <CloseButton onClick={onDismiss}>
-          <Icon id="close" />
-          <VisuallyHidden>Dismiss menu</VisuallyHidden>
-        </CloseButton>
-        <Filler />
-        <Nav>
-          <NavLink href="/sale">Sale</NavLink>
-          <NavLink href="/new">New&nbsp;Releases</NavLink>
-          <NavLink href="/men">Men</NavLink>
-          <NavLink href="/women">Women</NavLink>
-          <NavLink href="/kids">Kids</NavLink>
-          <NavLink href="/collections">Collections</NavLink>
-        </Nav>
-        <Footer>
-          <SubLink href="/terms">Terms and Conditions</SubLink>
-          <SubLink href="/privacy">Privacy Policy</SubLink>
-          <SubLink href="/contact">Contact Us</SubLink>
-        </Footer>
+        <InnerWrapper>
+          <CloseButton onClick={onDismiss}>
+            <Icon id="close" />
+            <VisuallyHidden>Dismiss menu</VisuallyHidden>
+          </CloseButton>
+          <Filler />
+          <Nav>
+            <NavLink href="/sale">Sale</NavLink>
+            <NavLink href="/new">New&nbsp;Releases</NavLink>
+            <NavLink href="/men">Men</NavLink>
+            <NavLink href="/women">Women</NavLink>
+            <NavLink href="/kids">Kids</NavLink>
+            <NavLink href="/collections">Collections</NavLink>
+          </Nav>
+          <Footer>
+            <SubLink href="/terms">Terms and Conditions</SubLink>
+            <SubLink href="/privacy">Privacy Policy</SubLink>
+            <SubLink href="/contact">Contact Us</SubLink>
+          </Footer>
+        </InnerWrapper>
       </Content>
     </Overlay>
   );
 };
+
+const fadeIn = keyframes`
+  from {
+    background: hsla(0, 0%, 0%, 0);
+  }
+  to {
+    background: var(--color-backdrop);
+  }
+`;
+
+const opacityFadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
 
 const Overlay = styled(DialogOverlay)`
   position: fixed;
@@ -45,6 +65,16 @@ const Overlay = styled(DialogOverlay)`
   background: var(--color-backdrop);
   display: flex;
   justify-content: flex-end;
+  animation: ${fadeIn} 400ms;
+`;
+
+const slideIn = keyframes`
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0%);
+  }
 `;
 
 const Content = styled(DialogContent)`
@@ -52,8 +82,15 @@ const Content = styled(DialogContent)`
   width: 300px;
   height: 100%;
   padding: 24px 32px;
+  animation: ${slideIn} 400ms;
+`;
+
+const InnerWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  height: 100%;
+  animation: ${opacityFadeIn} 600ms both;
+  animation-delay: 400ms;
 `;
 
 const CloseButton = styled(UnstyledButton)`
